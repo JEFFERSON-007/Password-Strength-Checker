@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="dark" />
+  <title>Password Security Analyzer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-orb bg-orb-a"></div>
+  <div class="bg-orb bg-orb-b"></div>
+  <div class="bg-grid"></div>
+
+  <main class="shell">
+    <section class="hero card">
+      <div class="hero-copy">
+        <p class="eyebrow">Cybersecurity dashboard</p>
+        <h1>Password Security Analyzer</h1>
+        <p class="hero-text">Analyze password quality in real time with entropy, pattern, and crack-time modeling built for interview demos and practical security reviews.</p>
+      </div>
+      <div class="hero-badges">
+        <span class="badge">Web Crypto</span>
+        <span class="badge">Live analysis</span>
+        <span class="badge">Local only</span>
+      </div>
+    </section>
+
+    <section class="grid grid-main">
+      <article class="card input-card">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Input</p>
+            <h2>Analyze a password</h2>
+          </div>
+          <div class="live-pill"><span class="live-dot"></span> Real-time</div>
+        </div>
+
+        <label class="field-label" for="passwordInput">Password</label>
+        <div class="password-field">
+          <input id="passwordInput" name="password" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" aria-describedby="passwordHelp" placeholder="Type a password to analyze" />
+          <button id="toggleVisibility" class="icon-button" type="button" aria-label="Show password" aria-pressed="false">
+            <svg class="icon icon-eye" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5c5.523 0 10 4.5 10 7s-4.477 7-10 7S2 14.5 2 12s4.477-7 10-7Zm0 2C7.886 7 4.191 10.177 3.172 12 4.191 13.823 7.886 17 12 17s8.809-3.177 9.828-5C20.809 10.177 17.114 7 12 7Zm0 1.75A3.25 3.25 0 1 1 8.75 12 3.254 3.254 0 0 1 12 8.75Zm0 2A1.25 1.25 0 1 0 13.25 12 1.252 1.252 0 0 0 12 10.75Z"></path>
+            </svg>
+            <svg class="icon icon-eye-off" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3.707 2.293 21.707 20.293l-1.414 1.414-3.054-3.054A11.82 11.82 0 0 1 12 20C6.477 20 2 15.5 2 13c0-1.67 1.239-3.77 3.223-5.637L2.293 3.707Zm2.37 5.198C4.879 9.03 4 11.004 4 13c0 2.362 3.893 5 8 5a9.83 9.83 0 0 0 4.144-.875l-1.72-1.72A3.25 3.25 0 0 1 9.595 9.47Zm5.166-.89a3.25 3.25 0 0 1 3.138 3.138l-2.164-2.164a1.25 1.25 0 0 0-.974-.974ZM12 6c5.523 0 10 4.5 10 7a8.67 8.67 0 0 1-1.571 3.92l-1.458-1.458A10.14 10.14 0 0 0 20 13c-1.019-1.823-4.714-5-8-5a9.86 9.86 0 0 0-2.71.377L7.7 6.797A11.64 11.64 0 0 1 12 6Z"></path>
+            </svg>
+          </button>
+          <button id="copyPassword" class="icon-button" type="button" aria-label="Copy password">
+            <svg class="icon icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+          </button>
+        </div>
+        <p id="passwordHelp" class="field-help">Every keystroke updates entropy, crack-time estimates, and security guidance.</p>
+
+        <div class="context-grid">
+          <div>
+            <label class="field-label" for="usernameInput">Username</label>
+            <input id="usernameInput" type="text" autocomplete="off" placeholder="Optional username" />
+          </div>
+          <div>
+            <label class="field-label" for="emailInput">Email</label>
+            <input id="emailInput" type="email" autocomplete="off" placeholder="Optional email" />
+          </div>
+        </div>
+
+        <div class="strength-panel">
+          <div class="strength-header">
+            <div>
+              <p class="eyebrow">Strength score</p>
+              <div id="strengthLabel" class="strength-label">Enter a password</div>
+            </div>
+            <div class="score-ring">
+              <div class="score-ring-inner">
+                <span id="scoreValue">0</span>
+                <small>/100</small>
+              </div>
+            </div>
+          </div>
+          <p id="analysisSummary" class="field-help">Start typing to see the live security analysis.</p>
+          <div class="meter-wrap">
+            <div class="meter meter-strength"><span id="strengthFill"></span></div>
+            <div class="meter meter-entropy"><span id="entropyFill"></span></div>
+          </div>
+          <div class="meter-labels">
+            <span>Strength: <strong id="strengthPercent">0%</strong></span>
+            <span>Entropy: <strong id="entropyText">0 bits</strong></span>
+          </div>
+        </div>
+      </article>
+
+      <article class="card metrics-card">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Telemetry</p>
+            <h2>Password statistics</h2>
+          </div>
+        </div>
+        <div class="stats-grid" id="statsGrid">
+          <div class="stat-card"><span>Length</span><strong id="statLength">0</strong></div>
+          <div class="stat-card"><span>Entropy</span><strong id="statEntropy">0 bits</strong></div>
+          <div class="stat-card"><span>Pool</span><strong id="statPool">0</strong></div>
+          <div class="stat-card"><span>Unique Ratio</span><strong id="statUniqueRatio">0%</strong></div>
+          <div class="stat-card"><span>Combinations</span><strong id="statCombinations">0</strong></div>
+          <div class="stat-card"><span>Character Classes</span><strong id="statClasses">0</strong></div>
+        </div>
+        <div class="chart-card">
+          <div class="section-subheading">
+            <h3>Character distribution</h3>
+            <span>Canvas visualization</span>
+          </div>
+          <canvas id="distributionChart" width="1280" height="560" aria-label="Character distribution chart"></canvas>
+        </div>
+      </article>
+
+      <article class="card analysis-card">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Analysis</p>
+            <h2>Live security findings</h2>
+          </div>
+        </div>
+        <div id="detectionList" class="checks-list"></div>
+      </article>
+
+      <article class="card insights-card">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Crack time</p>
+            <h2>Attack model estimates</h2>
+          </div>
+        </div>
+        <div id="crackTimes" class="crack-list"></div>
+      </article>
+
+      <article class="card checklist-card">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Checklist</p>
+            <h2>Recommended baseline</h2>
+          </div>
+        </div>
+        <div id="liveChecklist" class="live-checklist" aria-live="polite"></div>
+      </article>
+
+      <article class="card tips-card">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Recommendations</p>
+            <h2>Personalized security tips</h2>
+          </div>
+        </div>
+        <div id="securityTips" class="tips-list"></div>
+      </article>
+
+      <article class="card generator-card">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Generator</p>
+            <h2>Cryptographically secure password generator</h2>
+          </div>
+        </div>
+        <div class="generator-output">
+          <input id="generatedPassword" type="text" readonly aria-label="Generated password" />
+          <button id="copyGenerated" class="secondary-button" type="button">Copy</button>
+          <button id="regenerateGenerated" class="primary-button" type="button">Regenerate</button>
+        </div>
+        <div class="generator-controls">
+          <div class="generator-slider-wrap">
+            <label class="field-label" for="generatorLength" style="margin: 0 0 10px;">Length: <span id="lengthLabel">20</span></label>
+            <input id="generatorLength" type="range" min="8" max="64" value="20" />
+          </div>
+          <div class="toggle-row">
+            <label><input id="optUpper" type="checkbox" checked /> Uppercase</label>
+            <label><input id="optLower" type="checkbox" checked /> Lowercase</label>
+            <label><input id="optNumbers" type="checkbox" checked /> Numbers</label>
+            <label><input id="optSymbols" type="checkbox" checked /> Symbols</label>
+          </div>
+          <div class="toggle-row">
+            <label><input id="optSimilar" type="checkbox" checked /> Exclude similar characters</label>
+            <label><input id="optAmbiguous" type="checkbox" /> Exclude ambiguous characters</label>
+          </div>
+        </div>
+      </article>
+
+      <article class="card suggestions-card">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Alternatives</p>
+            <h2>5 stronger suggestions</h2>
+          </div>
+          <button id="regenerateSuggestions" class="secondary-button" type="button" style="min-height: 38px; padding: 0 14px; font-size: 0.85rem;">Regenerate</button>
+        </div>
+        <div id="suggestionsGrid" class="suggestions-list"></div>
+      </article>
+
+    </section>
+  </main>
+
+  <template id="checkTemplate">
+    <div class="check-item">
+      <span class="check-status"></span>
+      <div>
+        <strong></strong>
+        <p></p>
+      </div>
+    </div>
+  </template>
+
+  <template id="tipTemplate">
+    <div class="tip-item"></div>
+  </template>
+
+  <template id="suggestionTemplate">
+    <div class="suggestion-item">
+      <code></code>
+      <button class="copy-suggestion secondary-button" type="button">Copy</button>
+    </div>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>
